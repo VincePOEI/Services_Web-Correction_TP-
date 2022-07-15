@@ -40,10 +40,10 @@ public class AuthFilter implements ContainerRequestFilter {
         String[] lap = BasicAuth.decode(auth);
  
         if(lap == null || lap.length != 2){
-            throw new WebApplicationException(Status.UNAUTHORIZED);
+            throw new WebApplicationException("You must be connected", Status.UNAUTHORIZED);
         }
  
-        Utilisateur authentificationResult =  checkUser(lap[0], lap[1]);
+        Utilisateur authentificationResult = checkUser(lap[0], lap[1]);
  
         if(authentificationResult == null){
             throw new WebApplicationException(Status.UNAUTHORIZED);

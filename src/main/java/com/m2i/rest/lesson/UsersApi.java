@@ -27,4 +27,16 @@ public class UsersApi {
         return dao.findAll();
     }
     
+    @POST()
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Produces({ MediaType.APPLICATION_JSON })
+    public Utilisateur postUsers(Utilisateur newUtilisateur, @Context HttpServletRequest request) {
+        
+        UtilisateurDao dao = new UtilisateurDao();
+        
+        dao.create(newUtilisateur);
+        
+        return newUtilisateur;        
+    }
+    
 }
