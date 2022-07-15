@@ -1,5 +1,7 @@
 package com.m2i.rest.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "utilisateurs")
+@JsonInclude(Include.NON_NULL)
 public class Utilisateur implements Serializable {
 
     @Id
@@ -38,7 +41,7 @@ public class Utilisateur implements Serializable {
         this.email = email;
         this.password = password;
     }
-    
+
     public Utilisateur(String lastname, String firstname, String role, String email, String password) {
         this.lastname = lastname;
         this.firstname = firstname;
@@ -54,7 +57,7 @@ public class Utilisateur implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getLastname() {
         return lastname;
     }
@@ -93,5 +96,27 @@ public class Utilisateur implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void copy(Utilisateur data) {
+        if (data.getLastname() != null) {
+            this.lastname = data.getLastname();
+        }
+
+        if (data.getFirstname() != null) {
+            this.firstname = data.getFirstname();
+        }
+
+        if (data.getEmail() != null) {
+            this.email = data.getEmail();
+        }
+
+        if (data.getPassword() != null) {
+            this.password = data.getPassword();
+        }
+
+        if (data.getRole() != null) {
+            this.role = data.getRole();
+        }
     }
 }

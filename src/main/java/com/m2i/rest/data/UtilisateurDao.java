@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.ws.rs.NotFoundException;
 
 
 public class UtilisateurDao {
@@ -39,6 +40,35 @@ public class UtilisateurDao {
                 // Une erreur est survenue, on discard les actions entamés dans la transaction
                 tx.rollback();
             }
+        }
+    }
+    
+    public void update(int id, Utilisateur utilisateurData) throws Exception {
+        EntityManager entityManager = SessionHelper.getEntityManager();
+        // On récupère le utilisateur qu'on souhaite modifier
+        Utilisateur utilisateurToUpdate = entityManager.find(Utilisateur.class, id);
+
+        // Si le utilisateur n'existe pas on ne fait pas d'update
+        if (utilisateurToUpdate == null) {
+            throw new NotFoundException("Le utilisateur avec l'id:" + id + " n'existe pas");
+        }
+
+        // on set les données uniquement si elle ne sont pas null
+        utilisateurToUpdate.copy(utilisateurData);
+
+        EntityTransaction tx = null;
+
+        try {
+            tx = entityManager.getTransaction();
+            tx.begin();
+            entityManager.merge(utilisateurToUpdate);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println("Une erreur est survenu lors de la modification");
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw e;
         }
     }
 }
