@@ -13,6 +13,17 @@ public class UtilisateurDao {
         Query findAllQuery = entityManager.createQuery("select u from Utilisateur u");
         return findAllQuery.getResultList();
     }
+    
+     public Utilisateur findById(int id) {
+        EntityManager entityManager = SessionHelper.getEntityManager();
+        Utilisateur utilisateurFound = entityManager.find(Utilisateur.class, id);
+
+        if (utilisateurFound == null) {
+            System.out.println("Attention le utilisateur avec l'id: " + id + " n'existe pas !");
+        }
+
+        return utilisateurFound;
+    }
 
     public void create(Utilisateur utilisateurToCreate) {
         // On vérifie les données que l'on reçoit en paramètre

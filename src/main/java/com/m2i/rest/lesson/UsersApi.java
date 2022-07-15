@@ -79,5 +79,20 @@ public class UsersApi {
           
     }
     
+    @Path("/{id}")
+    @GET()
+    @Produces({ MediaType.APPLICATION_JSON })
+    public Utilisateur getUser(@PathParam("id") int userId, @Context HttpServletRequest request) {
+        
+         UtilisateurDao dao = new UtilisateurDao();
+         Utilisateur user = dao.findById(userId);
+         
+         if (user == null) {
+             throw new WebApplicationException("User was not found", Response.Status.NOT_FOUND);
+         }
+         
+         return user;
+    }
+    
 
 }
