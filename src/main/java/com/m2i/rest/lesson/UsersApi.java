@@ -62,5 +62,22 @@ public class UsersApi {
             
         return utilisateur;
     }
+    
+    @Path("/{id}")
+    @DELETE()
+    public void deleteUser(@PathParam("id") int userId, @Context HttpServletRequest request){
+       UtilisateurDao dao = new UtilisateurDao();
+       
+       try {
+            dao.delete(userId);
+
+        } catch (NotFoundException e) {
+            throw new WebApplicationException("User was not found", Response.Status.NOT_FOUND);
+        } catch (Exception e) {
+            throw new WebApplicationException("An error occured", Response.Status.BAD_REQUEST);
+        }
+          
+    }
+    
 
 }

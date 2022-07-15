@@ -6,15 +6,14 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 
-
 public class UtilisateurDao {
 
-    public List<Utilisateur> findAll(){
+    public List<Utilisateur> findAll() {
         EntityManager entityManager = SessionHelper.getEntityManager();
         Query findAllQuery = entityManager.createQuery("select u from Utilisateur u");
         return findAllQuery.getResultList();
     }
-    
+
     public void create(Utilisateur utilisateurToCreate) {
         // On vérifie les données que l'on reçoit en paramètre
         if (utilisateurToCreate == null) {
@@ -42,7 +41,7 @@ public class UtilisateurDao {
             }
         }
     }
-    
+
     public void update(int id, Utilisateur utilisateurData) throws Exception {
         EntityManager entityManager = SessionHelper.getEntityManager();
         // On récupère le utilisateur qu'on souhaite modifier
@@ -50,7 +49,7 @@ public class UtilisateurDao {
 
         // Si le utilisateur n'existe pas on ne fait pas d'update
         if (utilisateurToUpdate == null) {
-            throw new NotFoundException("Le utilisateur avec l'id:" + id + " n'existe pas");
+            throw new NotFoundException("L'utilisateur avec l'id:" + id + " n'existe pas");
         }
 
         // on set les données uniquement si elle ne sont pas null
@@ -65,6 +64,31 @@ public class UtilisateurDao {
             tx.commit();
         } catch (Exception e) {
             System.out.println("Une erreur est survenu lors de la modification");
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw e;
+        }
+    }
+
+    public void delete(int id) {
+        EntityManager entityManager = SessionHelper.getEntityManager();
+        // On récupère le utilisateur qu'on souhaite supprimer
+        Utilisateur utilisateurToDelete = entityManager.find(Utilisateur.class, id);
+
+        if (utilisateurToDelete == null) {
+            throw new NotFoundException("L'utilisateur avec l'id:" + id + " n'existe pas");
+        }
+
+        EntityTransaction tx = null;
+
+        try {
+            tx = entityManager.getTransaction();
+            tx.begin();
+            entityManager.remove(utilisateurToDelete);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println("Une erreur est survenu lors de la suppresion");
             if (tx != null) {
                 tx.rollback();
             }
