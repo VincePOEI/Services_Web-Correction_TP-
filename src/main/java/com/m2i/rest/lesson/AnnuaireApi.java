@@ -22,11 +22,13 @@ public class AnnuaireApi {
     @Produces({ MediaType.APPLICATION_JSON })
     public List<Personne> getPersonnes(@Context HttpServletRequest request) {
         
+        Utilisateur user = (Utilisateur)request.getAttribute("user");
         Annuaire annuaire = (Annuaire)request.getSession().getAttribute("annuaire");
         
         if(annuaire == null) {
             annuaire = new Annuaire();       
         }
+        
         
         return annuaire.getPersonnes();
     }
