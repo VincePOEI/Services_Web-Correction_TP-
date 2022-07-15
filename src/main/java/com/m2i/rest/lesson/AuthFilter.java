@@ -1,5 +1,6 @@
 package com.m2i.rest.lesson;
 
+import com.m2i.rest.data.Utilisateur;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
@@ -25,8 +26,7 @@ public class AuthFilter implements ContainerRequestFilter {
         
         if ("GET".equals(method) && "personnes".equals(path)) {
             return;
-        }
-        
+        }       
         
         //Get the authentification passed in HTTP headers parameters
         String auth = containerRequest.getHeaderString("Authorization");
@@ -54,7 +54,7 @@ public class AuthFilter implements ContainerRequestFilter {
     
     public Utilisateur checkUser(String email, String password) {
         if (email.equals("admin@admin.com")) {
-            return new Utilisateur(Role.ADMIN, email, "admin");
+            return new Utilisateur();
         }
         
         return null;

@@ -1,6 +1,7 @@
 package com.m2i.rest.lesson;
 
 
+import com.m2i.rest.data.Utilisateur;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
