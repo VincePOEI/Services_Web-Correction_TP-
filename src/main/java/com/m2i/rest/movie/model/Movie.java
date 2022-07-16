@@ -1,13 +1,15 @@
 package com.m2i.rest.movie.model;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "movies")
-public class Movie {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Movie extends AbstractEntity<Movie> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -151,4 +153,50 @@ public class Movie {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }   
+
+    @Override
+    public void copy(Movie entityToCopy) {
+        
+        if (entityToCopy.getName() != null) {
+            this.name = entityToCopy.getName();
+        }
+        
+        if (entityToCopy.getDuration() > 0) {
+            this.duration = entityToCopy.getDuration();
+        }
+        
+        if (entityToCopy.getRating() > 0f) {
+            this.rating = entityToCopy.getRating();
+        }
+        
+        if (entityToCopy.getOriginCountry() != null) {
+            this.originCountry = entityToCopy.getOriginCountry();
+        }
+        
+        if (entityToCopy.getReleaseDate() != null) {
+            this.releaseDate = entityToCopy.getReleaseDate();
+        }
+        
+        if (entityToCopy.getSynopsis() != null) {
+            this.synopsis = entityToCopy.getSynopsis();
+        }
+        
+        if (entityToCopy.getLanguages() != null) {
+            this.languages = entityToCopy.getLanguages();
+        }
+        
+        if (entityToCopy.getActors() != null) {
+            this.actors = entityToCopy.getActors();
+        }
+        
+        if (entityToCopy.getComments() != null) {
+            this.comments = entityToCopy.getComments();
+        }
+        
+        if (entityToCopy.getGenres() != null) {
+            this.genres = entityToCopy.getGenres();
+        }
+    }
+    
+    
 }

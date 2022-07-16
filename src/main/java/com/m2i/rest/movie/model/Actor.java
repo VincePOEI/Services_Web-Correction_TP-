@@ -1,5 +1,6 @@
 package com.m2i.rest.movie.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -7,7 +8,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "actors")
-public class Actor {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Actor extends AbstractEntity<Actor> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,6 +70,26 @@ public class Actor {
 
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
+    }
+
+    @Override
+    public void copy(Actor entityToCopy) {
+        
+        if (entityToCopy.getFirstname() != null) {
+            this.firstname = entityToCopy.getFirstname();
+        }
+        
+        if (entityToCopy.getLastname() != null) {
+            this.lastname = entityToCopy.getLastname();
+        }
+        
+        if (entityToCopy.getBirthDate() != null) {
+            this.birthDate = entityToCopy.getBirthDate();
+        }
+        
+        if (entityToCopy.getMovies() != null) {
+            this.movies = entityToCopy.getMovies();
+        }
     }
     
     

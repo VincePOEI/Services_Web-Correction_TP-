@@ -1,5 +1,7 @@
 package com.m2i.rest.movie.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +15,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User {
+@JsonInclude(Include.NON_NULL)
+public class User extends AbstractEntity<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,5 +109,35 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public void copy(User entityToCopy) {
+        
+        if (entityToCopy.getFirstname() != null) {
+            this.firstname = entityToCopy.getFirstname();
+        }
+        
+        if (entityToCopy.getLastname() != null) {
+            this.lastname = entityToCopy.getLastname();
+        }
+        
+        if (entityToCopy.getNickname() != null) {
+            this.nickname = entityToCopy.getNickname();
+        } 
+        
+        if (entityToCopy.getEmail() != null) {
+            this.email = entityToCopy.getEmail();
+        }
+        
+        if (entityToCopy.getPassword() != null) {
+            this.password = entityToCopy.getPassword();
+        }
+        
+        if (entityToCopy.getRole() != null) {
+            this.role = entityToCopy.getRole();
+        }
+        
+    }
+    
     
 }

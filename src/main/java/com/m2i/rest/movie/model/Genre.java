@@ -1,10 +1,12 @@
 package com.m2i.rest.movie.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "genres")
-public class Genre {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Genre extends AbstractEntity<Genre> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +38,15 @@ public class Genre {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public void copy(Genre entityToCopy) {
+        
+        if (entityToCopy.getName() != null) {
+            this.name = entityToCopy.getName();
+        }
+        
+    }
+    
+    
 }

@@ -1,10 +1,12 @@
 package com.m2i.rest.movie.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Role extends AbstractEntity<Role> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,4 +87,19 @@ public class Role {
     public String toString() {
         return String.format("[id=%s, identifiant=%s, description=%s]", id, identifiant, description);
     }
+
+    @Override
+    public void copy(Role entityToCopy) {
+        
+        if (entityToCopy.getIdentifiant() != null) {
+            this.identifiant = entityToCopy.getIdentifiant();
+        }
+        
+        if (entityToCopy.getDescription() != null) {
+            this.description = entityToCopy.getDescription();
+        }
+        
+    }
+    
+    
 }

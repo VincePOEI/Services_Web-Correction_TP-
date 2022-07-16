@@ -1,12 +1,14 @@
 package com.m2i.rest.movie.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Date;
 import javax.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "comments")
-public class Comment {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Comment extends AbstractEntity<Comment> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,6 +79,27 @@ public class Comment {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public void copy(Comment entityToCopy) {
+        
+        if (entityToCopy.getUser() != null) {
+            this.user = entityToCopy.getUser();
+        }
+        
+        if (entityToCopy.getMovie() != null) {
+            this.movie = entityToCopy.getMovie();
+        }
+        
+        if (entityToCopy.getCreationDate() != null) {
+            this.creationDate = entityToCopy.getCreationDate();
+        }
+        
+        if (entityToCopy.getContent() != null) {
+            this.content = entityToCopy.getContent();
+        }
+        
     }
     
     

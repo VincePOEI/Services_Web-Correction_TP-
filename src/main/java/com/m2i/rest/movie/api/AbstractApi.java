@@ -1,6 +1,7 @@
 package com.m2i.rest.movie.api;
 
 import com.m2i.rest.movie.dao.AbstractDao;
+import com.m2i.rest.movie.model.AbstractEntity;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 
-public class AbstractApi<TEntity, TDao extends AbstractDao<TEntity>> {
+public class AbstractApi<TEntity extends AbstractEntity<TEntity>, TDao extends AbstractDao<TEntity>> {
 
     @GET()
     @Produces({MediaType.APPLICATION_JSON})
@@ -37,7 +38,7 @@ public class AbstractApi<TEntity, TDao extends AbstractDao<TEntity>> {
 
         TDao dao = getInstanceOfDao();
 
-        dao.create(entity);
+        dao.save(entity);
 
         return entity;
     }

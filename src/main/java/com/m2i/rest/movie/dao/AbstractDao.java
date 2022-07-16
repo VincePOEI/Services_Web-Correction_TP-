@@ -1,12 +1,13 @@
 package com.m2i.rest.movie.dao;
 
+import com.m2i.rest.movie.model.AbstractEntity;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 
-public abstract class AbstractDao<T> {
+public abstract class AbstractDao<T extends AbstractEntity<T>> {
 
     private Class<T> clazz;
 
@@ -29,7 +30,7 @@ public abstract class AbstractDao<T> {
         return entityFound;
     }
 
-    public void create(T entityToCreate) {
+    public void save(T entityToCreate) {
         // On vérifie les données que l'on reçoit en paramètre
         if (entityToCreate == null) {
             System.out.println("L'entité ne peut pas être null");
@@ -45,7 +46,7 @@ public abstract class AbstractDao<T> {
             tx = entityManager.getTransaction();
             tx.begin();
 
-            entityManager.persist(entityToCreate);
+            entityManager.merge(entityToCreate);
 
             tx.commit();
         } catch (Exception e) {
@@ -67,20 +68,9 @@ public abstract class AbstractDao<T> {
             throw new NotFoundException("L'entité avec l'id:" + id + " n'existe pas");
         }
 
-        EntityTransaction tx = null;
-
-        try {
-            tx = entityManager.getTransaction();
-            tx.begin();
-            entityManager.merge(entityToUpdate);
-            tx.commit();
-        } catch (Exception e) {
-            System.out.println("Une erreur est survenu lors de la modification");
-            if (tx != null) {
-                tx.rollback();
-            }
-            throw e;
-        }
+        entityToUpdate.copy(entity);
+        
+        save(entityToUpdate);
     }
 
     public void delete(int id) {
