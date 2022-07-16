@@ -1,4 +1,4 @@
-package com.m2i.rest.data;
+package com.m2i.rest.movie.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,7 +10,7 @@ public class SessionHelper {
 
     public static EntityManager getEntityManager() {
         if (entityManager == null) {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("users_db");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("movie_db");
             entityManager = emf.createEntityManager();
         }
 
