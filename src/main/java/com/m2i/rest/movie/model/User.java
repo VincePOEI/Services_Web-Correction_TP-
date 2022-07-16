@@ -44,6 +44,16 @@ public class User extends AbstractEntity<User> {
     public User() {
     }
 
+    public User(String firstname, String lastname, String nickname, String email, String password, Role role) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    
     public User(int id, String firstname, String lastname, String nickname, String email, String password, Role role) {
         this.id = id;
         this.firstname = firstname;
