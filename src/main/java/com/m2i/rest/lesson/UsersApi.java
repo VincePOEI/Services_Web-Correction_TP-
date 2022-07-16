@@ -94,5 +94,30 @@ public class UsersApi {
          return user;
     }
     
+    @Path("/search")
+    @GET()
+    @Produces({ MediaType.APPLICATION_JSON })
+    public List<Utilisateur> searchUser(@Context HttpServletRequest request) {
+     
+        String queryParam = request.getParameter("q");
+        String countParam = request.getParameter("count");
+        int count = 1;
+      
+        
+        if (countParam != null) {
+            try {
+                count = Integer.parseInt(countParam);
+            } catch (NumberFormatException e) {
+                // Ignore
+            }
+        }
+        
+        UtilisateurDao dao = new UtilisateurDao();
+        
+        List<Utilisateur> searchResult = dao.search(queryParam, count);
+        
+        
+        return searchResult;
+    }
 
 }

@@ -104,6 +104,17 @@ public class UtilisateurDao {
                 tx.rollback();
             }
             throw e;
-        }
+        }       
+    }
+    
+    public List<Utilisateur> search(String query, int count) {
+        EntityManager entityManager = SessionHelper.getEntityManager();
+        Query searchQuery = entityManager.createQuery("select u from Utilisateur u where u.lastname like :query or u.email like :query");
+        
+        searchQuery.setParameter("query", "%" + query + "%");
+
+        searchQuery.setMaxResults(count);
+        
+        return searchQuery.getResultList();
     }
 }
