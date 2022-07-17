@@ -142,6 +142,54 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get by genre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies/getByGenre?q=Action",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"getByGenre"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Action"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by actor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/movies/getByActor?q=Brad",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"movies",
+								"getByActor"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Brad"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

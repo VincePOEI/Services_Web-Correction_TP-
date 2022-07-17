@@ -1,5 +1,6 @@
 package com.m2i.rest.movie.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Date;
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Comment extends AbstractEntity<Comment> {
     @Column(columnDefinition = "TEXT")
     private String content;
     
+    @JsonIgnore
     @JoinColumn(name = "movie_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;

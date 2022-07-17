@@ -8,4 +8,5 @@ import javax.ws.rs.Path;
 public class ActorApi extends AbstractApi<Actor, ActorDao> {
 
    
+    
 }

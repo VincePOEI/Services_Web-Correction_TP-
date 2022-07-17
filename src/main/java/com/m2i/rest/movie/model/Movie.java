@@ -46,7 +46,7 @@ public class Movie extends AbstractEntity<Movie> {
     @CollectionTable(name = "languages", joinColumns = @JoinColumn(name = "movie_id"))
     private List<String> languages;
     
-    @OneToMany(mappedBy = "movie", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE }, orphanRemoval = true)
     private List<Comment> comments;
 
     public Movie() {
