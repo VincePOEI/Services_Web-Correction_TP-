@@ -6,7 +6,7 @@ import javax.xml.bind.DatatypeConverter;
 public class BasicAuth {
     /**
      * Decode the basic auth and convert it to array login/password
-     * @param auth The string encoded authentification
+     * @param auth The string encoded auth
      * @return The login (case 0), the password (case 1)
      */
     public static String[] decode(String auth) {

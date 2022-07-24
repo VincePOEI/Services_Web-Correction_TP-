@@ -4,19 +4,20 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
-public class UtilisateurDao {
+public class UserDao {
 
-    public List<Utilisateur> findAll() {
+    public List<User> findAll() {
         EntityManager entityManager = SessionHelper.getEntityManager();
-        Query findAllQuery = entityManager.createQuery("select u from Utilisateur u");
+        Query findAllQuery = entityManager.createQuery("select u from User u");
         return findAllQuery.getResultList();
     }
     
-     public Utilisateur findById(int id) {
+     public User findById(int id) {
         EntityManager entityManager = SessionHelper.getEntityManager();
-        Utilisateur utilisateurFound = entityManager.find(Utilisateur.class, id);
+        User utilisateurFound = entityManager.find(User.class, id);
 
         if (utilisateurFound == null) {
             System.out.println("Attention le utilisateur avec l'id: " + id + " n'existe pas !");
@@ -25,11 +26,15 @@ public class UtilisateurDao {
         return utilisateurFound;
     }
 
-    public void create(Utilisateur utilisateurToCreate) {
+    public void create(User utilisateurToCreate) throws BadRequestException {
         // On vérifie les données que l'on reçoit en paramètre
         if (utilisateurToCreate == null) {
             System.out.println("L'objet utilisateur ne peut pas être null");
             return;
+        }
+        
+        if (utilisateurToCreate.hasAFieldEmpty()) {
+            throw new BadRequestException("All the fields must be filled");
         }
 
         EntityManager entityManager = SessionHelper.getEntityManager();
@@ -50,13 +55,14 @@ public class UtilisateurDao {
                 // Une erreur est survenue, on discard les actions entamés dans la transaction
                 tx.rollback();
             }
+            throw e;
         }
     }
 
-    public void update(int id, Utilisateur utilisateurData) throws Exception {
+    public void update(int id, User utilisateurData) throws NotFoundException {
         EntityManager entityManager = SessionHelper.getEntityManager();
         // On récupère le utilisateur qu'on souhaite modifier
-        Utilisateur utilisateurToUpdate = entityManager.find(Utilisateur.class, id);
+        User utilisateurToUpdate = entityManager.find(User.class, id);
 
         // Si le utilisateur n'existe pas on ne fait pas d'update
         if (utilisateurToUpdate == null) {
@@ -85,7 +91,7 @@ public class UtilisateurDao {
     public void delete(int id) {
         EntityManager entityManager = SessionHelper.getEntityManager();
         // On récupère le utilisateur qu'on souhaite supprimer
-        Utilisateur utilisateurToDelete = entityManager.find(Utilisateur.class, id);
+        User utilisateurToDelete = entityManager.find(User.class, id);
 
         if (utilisateurToDelete == null) {
             throw new NotFoundException("L'utilisateur avec l'id:" + id + " n'existe pas");
@@ -104,15 +110,14 @@ public class UtilisateurDao {
                 tx.rollback();
             }
             throw e;
-        }       
+        }
     }
     
-    public List<Utilisateur> search(String query, int count) {
+    public List<User> search(String query, int count) {
         EntityManager entityManager = SessionHelper.getEntityManager();
-        Query searchQuery = entityManager.createQuery("select u from Utilisateur u where u.lastname like :query or u.email like :query");
-        
-        searchQuery.setParameter("query", "%" + query + "%");
+        Query searchQuery = entityManager.createQuery("select u from User u where u.lastname like :query or u.email like :query");
 
+        searchQuery.setParameter("query", "%" + query + "%");
         searchQuery.setMaxResults(count);
         
         return searchQuery.getResultList();

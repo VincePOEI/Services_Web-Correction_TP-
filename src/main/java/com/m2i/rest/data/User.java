@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "utilisateurs")
 @JsonInclude(Include.NON_NULL)
-public class Utilisateur implements Serializable {
+public class User implements Serializable {
 
     @Id
     @Column
@@ -33,10 +33,10 @@ public class Utilisateur implements Serializable {
     @Column(length = 100)
     private String password;
 
-    public Utilisateur() {
+    public User() {
     }
 
-    public Utilisateur(int id, String lastname, String firstname, String role, String email, String password) {
+    public User(int id, String lastname, String firstname, String role, String email, String password) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -45,7 +45,7 @@ public class Utilisateur implements Serializable {
         this.password = password;
     }
 
-    public Utilisateur(String lastname, String firstname, String role, String email, String password) {
+    public User(String lastname, String firstname, String role, String email, String password) {
         this.lastname = lastname;
         this.firstname = firstname;
         this.role = role;
@@ -101,7 +101,7 @@ public class Utilisateur implements Serializable {
         this.password = password;
     }
 
-    public void copy(Utilisateur data) {
+    public void copy(User data) {
         if (data.getLastname() != null) {
             this.lastname = data.getLastname();
         }
@@ -121,5 +121,13 @@ public class Utilisateur implements Serializable {
         if (data.getRole() != null) {
             this.role = data.getRole();
         }
+    }
+
+    public boolean hasAFieldEmpty() {
+        return getLastname() == null ||
+                getFirstname() == null ||
+                getEmail() == null ||
+                getPassword() == null ||
+                getRole() == null;
     }
 }
