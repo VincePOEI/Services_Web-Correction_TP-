@@ -2,6 +2,8 @@ package com.m2i.rest.data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +29,7 @@ public class Utilisateur implements Serializable {
     private String role;
     @Column(length = 100)
     private String email;
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(length = 100)
     private String password;
 
@@ -89,7 +92,7 @@ public class Utilisateur implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getPassword() {
         return password;
     }
